@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+
+# whatis: Open hardcoded sem-meter .csv file and output .csv file: hardcoded date range, Kwh usage for each circuit in our_circuits with subtotals and "ours" ('p' stands for pandas; old `sem-meter` is non-pandas version without additional calculations and only 3 columns, not each circuit having own column)
+
+import sys
+import pandas as pd
+
+our_circuits = {
+	"HVAC 1-35 40A(W)": .333,
+	"Workshop 3-xx 50a(W)": 1,
+	"Dryer 4-32 30a(W)": .25,
+	"Washer 5-31 20a(W)": .25,
+	"Playhouse 8-xx 50a(W)": 1,
+	"Trailer 11-22 30a(W)": 1,
+	#"Office 15-30 15a(W)": .5,
+	}
+
+short_names = {
+	"HVAC 1-35 40A(W)": 'HVAC',
+	"Workshop 3-xx 50a(W)": 'Workshop',
+	"Dryer 4-32 30a(W)": 'Dryer',
+	"Washer 5-31 20a(W)": 'Washer',
+	"Playhouse 8-xx 50a(W)": 'Playhouse',
+	"Trailer 11-22 30a(W)": 'Trailer',
+	"Office 15-30 15a(W)": 'Office',
+	}
+
+start_date = '2025-07-18'
+end_date = '2025-8-17'
+
+# Filter out circuits that aren't ours
+usecols = our_circuits.keys()
+# Retain a copy of list of our circuits (without date column added below)
+datacols = list(usecols).copy()
+# Add the Date column
+usecols = ['Time Bucket (Time zone in which phone used(UTC-7))'] + list(usecols)
+# Read in the data (just our circuits)
+df = pd.read_csv('/home/kanon/Downloads/sem-meter-DATA1762746137.csv', usecols=usecols)
+# Rename the date column for convenience
+df.rename(columns={'Time Bucket (Time zone in which phone used(UTC-7))': 'Date'}, inplace=True)
+# Convert dates to datetime type
+df['Date'] = pd.to_datetime(df['Date'])
+# Filter out date range
+#df1 = df[(df['Date'] >= start_date) & (df['Date'] <= end_date)]
+df = df[df['Date'].between(start_date, end_date)]
+# Chop off the time
+df['Date'] = pd.to_datetime(df['Date']).dt.date  # , format='%Y-%m-%d'
+
+# Wh to KWh conversion
+df[datacols] = df[datacols].apply(lambda x: x / 1000)
+
+# Add spreadsheet formulae
+rowcount = len(df)
+alphabet = 'abcdefgh'
+curalpha = 0
+for series_name, series in df.items():
+	if series_name in our_circuits.keys():
+		#print(f'{series_name}\t{our_circuits[series_name]}')
+		# 12/13/25-now getting warning: /home/kanon/bin/sem-meterp:60: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '=sum(f2:f32' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+		#Google says to: df['column_name'] = df['column_name'].astype('object')
+		# but how? Also, maybe making new row like this is "horrible" https://stackoverflow.com/questions/10715965/create-a-pandas-dataframe-by-appending-one-row-at-a-time but for now, jerryrig it
+		# df.loc[rowcount, series_name] = df.loc[rowcount, series_name].astype('str')  # didn't work ('object' type didn't either)
+		df[series_name] = df[series_name].astype(object)
+		df.loc[rowcount, series_name] = f'=sum({alphabet[curalpha]}2:{alphabet[curalpha]}{rowcount+1}'  # zero-based, so rowcount is next row after last row
+		df.loc[rowcount+1, series_name] = our_circuits[series_name]
+		df.loc[rowcount+2, series_name] = f'={alphabet[curalpha]}{rowcount+2}*{alphabet[curalpha]}{rowcount+3}'
+	elif series_name == 'Date':
+		df.loc[rowcount, series_name] = 'Subtotal'
+		df.loc[rowcount+1, series_name] = 'Multiplier'
+		df.loc[rowcount+2, series_name] = 'Ours'
+	curalpha += 1
+
+# Rename columns to short names
+df.rename(columns=short_names, inplace=True)
+#df.loc[len(df)] = [values]
+#print(df)
+
+# Output new .csv file
+df.to_csv('test.csv', sep='\t', index=False)
+
+# Old stuff for reference
+# How to make a list of the columns
+#print(df.columns.tolist())
+# Just the first few
+#print(df.head())
+# Remove some columns
+#keep_col = ['day','month','lat','long']
+#new_f = f[keep_col]
