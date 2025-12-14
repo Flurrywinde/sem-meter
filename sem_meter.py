@@ -73,7 +73,7 @@ class sem:
 				self.df.loc[rowcount+2, series_name] = 'Ours'
 			curalpha += 1
 		self.df.loc[rowcount+3, 'Date'] = 'Our Total'
-		self.df.loc[rowcount+3, colnames[2]] = f'=sum(b{rowcount+4}:{alphabet[curalpha-1]}{rowcount+4}'
+		self.df.loc[rowcount+3, colnames[2]] = f'=sum(b{rowcount+4}:{alphabet[curalpha-1]}{rowcount+4})'
 		self.df.loc[rowcount+4, 'Date'] = 'Due Date'
 		self.df.loc[rowcount+4, colnames[2]] = f'{duedate}'
 		self.df.loc[rowcount+5, 'Date'] = 'Amount Due'
