@@ -5,6 +5,12 @@ from forms import UserDataForm
 
 from werkzeug.utils import secure_filename
 from sem_meter import sem
+import webbrowser
+from threading import Timer
+
+def open_browser():
+    # Opens the URL in a new browser tab/window
+    webbrowser.open_new("http://127.0.0.1:5000/")
 
 # UPLOAD_FOLDER = '/path/to/the/uploads'
 # ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -106,5 +112,9 @@ def download_file(filename):
 	full_path = os.path.join(app.root_path, app.config['GENERATED_FILES_FOLDER'])
 	return send_file(os.path.join(full_path, filename), as_attachment=True, download_name=filename)
 
-if __name__ == '__main__':
-	app.run(debug=True)
+if __name__ == "__main__":
+    # Start a timer to open the browser after a short delay (e.g., 1 second)
+    # This gives the Flask server a moment to spin up
+    Timer(1, open_browser).start()
+    # Run the Flask app
+    app.run(port=5000, debug=True)

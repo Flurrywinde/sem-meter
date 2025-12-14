@@ -4,6 +4,7 @@ Process a sem-meter .csv file to output only certain circuits with different mul
 ## Make it installable
 * https://www.kevinlaw.info/blog/2016-04-15-distributing-flask-as-a-package/
 * https://www.quora.com/What-is-the-process-to-upload-a-Python-Flask-project-to-GitHub-and-run-it-on-a-real-IP
+* https://share.google/aimode/YWe78vxuZV1tG9DxN
 
 To make your Flask project distributable and installable from a GitHub repo, structure it as a Python package with  (or ), include a , and use Gunicorn/WSGI for deployment; then, you can link it to platforms like Render or PythonAnywhere for hosting, or let users  directly from your repo for local setup, explains Flask documentation (https://flask.palletsprojects.com/en/stable/tutorial/install/) and Reddit users (https://www.reddit.com/r/learnpython/comments/1bismq5/how_can_i_run_a_flask_app_for_completely_free/). [1, 2, 3, 4, 5]  
 1. Package Your Flask App (Make it Installable) 
