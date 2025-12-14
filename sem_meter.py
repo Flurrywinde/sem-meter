@@ -77,15 +77,15 @@ class sem:
 		self.df.loc[rowcount+4, 'Date'] = 'Due Date'
 		self.df.loc[rowcount+4, colnames[2]] = f'{duedate}'
 		self.df.loc[rowcount+5, 'Date'] = 'Amount Due'
-		self.df.loc[rowcount+5, colnames[2]] = f'{charge}'
+		self.df.loc[rowcount+5, colnames[2]] = f'${charge}'
 		self.df.loc[rowcount+6, 'Date'] = 'KWh Billed'
 		self.df.loc[rowcount+6, colnames[2]] = f'{kwh}'
 		self.df.loc[rowcount+7, 'Date'] = 'Our %'
 		self.df.loc[rowcount+7, colnames[2]] = f'=b{rowcount+5}/b{rowcount+8}'
 		self.df.loc[rowcount+8, 'Date'] = 'Our $'
-		self.df.loc[rowcount+8, colnames[2]] = f'=round(b{rowcount+9}*b{rowcount+7}, 2)'
+		self.df.loc[rowcount+8, colnames[2]] = f'=concat("$", round(b{rowcount+9}*b{rowcount+7}, 2))'
 		self.df.loc[rowcount+9, 'Date'] = 'Elena $'
-		self.df.loc[rowcount+9, colnames[2]] = f'=round(b{rowcount+7}-b{rowcount+10}, 2)'
+		self.df.loc[rowcount+9, colnames[2]] = f'=concat("$", round(b{rowcount+7}-b{rowcount+10}, 2))'
 
 
 		# Rename columns to short names
