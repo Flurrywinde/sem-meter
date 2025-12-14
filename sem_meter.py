@@ -119,10 +119,12 @@ class sem:
 		# Align and size columns
 		left_align = workbook.add_format({'align': 'left'})
 		right_align = workbook.add_format({'align': 'right'})
-		worksheet.set_column('A:A', 20, left_align)  # dates still right-align
+		left_date = workbook.add_format({'align': 'left', 'num_format': 'yyyy-mm-dd'})
+		#worksheet.set_column('A:A', 20, left_align)  # dates still right-align
+		worksheet.set_column('A:A', 16, left_date)
 		worksheet.set_column('B:B', 10, right_align)
-		worksheet.set_column('C:C', 12, right_align)
-		worksheet.set_column('F:F', 12, right_align)
+		worksheet.set_column('C:C', 11, right_align)
+		worksheet.set_column('F:F', 11, right_align)
 
 		# You can also apply formatting to headers. Define a header format and apply it to the first row:
 
@@ -139,6 +141,7 @@ class sem:
 			worksheet.write(0, col_num, value, header_format)
 
 		# Calculate formulae (libreoffice wasn't, but can change in settings)
+		# Tools → Options → LibreOffice Calc → Formula → Recalculation on File Load, and set it to "Always recalculate". Or:
 		#worksheet.write_formula('A1', '=B1+C1', None, '')
 
 		# Finally, save the file:
