@@ -100,8 +100,12 @@ def index():
 		with open(file_path, 'w') as f:
 			f.write(file_content)
 
+		# xls instead
+		xlsname = f'sem_{duedate_data} ({start_date} to {end_date}).xlsx'
+
 		# Redirect to a download route
-		return redirect(url_for('download_file', filename=f"{csv_out}"))
+		#return redirect(url_for('download_file', filename=f"{csv_out}"))
+		return redirect(url_for('download_file', filename=f"{xlsname}"))
 
 	# If GET request or validation failed, render the form with error messages
 	return render_template('form.html', form=form)
