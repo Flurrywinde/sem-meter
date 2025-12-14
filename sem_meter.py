@@ -1,3 +1,4 @@
+import os
 import sys
 import pandas as pd
 
@@ -40,7 +41,7 @@ class sem:
 		df['Date'] = pd.to_datetime(df['Date']).dt.date  # , format='%Y-%m-%d'
 		self.df = df
 
-	def exe(self, start_date, end_date, duedate, charge, kwh):
+	def exe(self, start_date, end_date, duedate, charge, kwh, genpath):
 		self.start_date = start_date
 		self.end_date = end_date
 		# Filter out date range
@@ -94,8 +95,9 @@ class sem:
 		#print(df)
 
 		# Convert to xlsx format
-		xlsname = f'sem_{duedate_data} ({start_date} to {end_date}).xlsx'
-		writer = pd.ExcelWriter(xlsname, engine='xlsxwriter')
+		xlsname = f'sem_{duedate} ({start_date} to {end_date}).xlsx'
+		xlspath = os.path.join(genpath, f"{xlsname}")
+		writer = pd.ExcelWriter(xlspath, engine='xlsxwriter')
 		self.df.to_excel(writer, sheet_name='Sheet1', index=False)
 
 		# Access the workbook and worksheet objects to apply formatting:
@@ -114,10 +116,13 @@ class sem:
 
 		# For alignment, use the add_format method to define alignment settings and apply them to specific columns:
 
-		# Right-align 2nd column
-		#left_align = workbook.add_format({'align': 'left'})
+		# Align and size columns
+		left_align = workbook.add_format({'align': 'left'})
 		right_align = workbook.add_format({'align': 'right'})
-		worksheet.set_column('B:B', 20, right_align)
+		worksheet.set_column('A:A', 20, left_align)  # dates still right-align
+		worksheet.set_column('B:B', 10, right_align)
+		worksheet.set_column('C:C', 12, right_align)
+		worksheet.set_column('F:F', 12, right_align)
 
 		# You can also apply formatting to headers. Define a header format and apply it to the first row:
 
@@ -133,8 +138,11 @@ class sem:
 		for col_num, value in enumerate(self.df.columns.values):
 			worksheet.write(0, col_num, value, header_format)
 
+		# Calculate formulae (libreoffice wasn't, but can change in settings)
+		#worksheet.write_formula('A1', '=B1+C1', None, '')
+
 		# Finally, save the file:
-		writer.save()
+		writer.close()
 
 		# Return data as csv
 		return self.df.to_csv(sep='\t', index=False)
