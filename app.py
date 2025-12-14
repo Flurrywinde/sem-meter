@@ -88,8 +88,8 @@ def index():
 #		 username_data = form.username.data
 #		 file_content = f"The submitted username is: {username_data}"
 #		 file_path = os.path.join(app.config['GENERATED_FILES_FOLDER'], f"{username_data}.txt")
-		csv_out = 'out.csv'
 		duedate_data = form.duedate.data
+		csv_out = f'sem_{duedata_data} ({start_date} to {end_date}).csv'
 		#file_content = f"The submitted duedate is: {duedate_data}\n"
 		#file_content += f"The submitted file is: {form.csv_in.data}\n"
 		#file_content += f"{newcsv}\n"
