@@ -23,6 +23,8 @@ class UserDataForm(FlaskForm):
         validators=[validators.DataRequired()],
         format='%Y-%m-%d'
     )
+    amtdue = StringField('Amount Due', validators=[DataRequired(), Length(min=2, max=60)])
+    kwh = StringField('KWh Billed', validators=[DataRequired(), Length(min=2, max=60)])
     start_date = DateField(
         'Start Date',
         validators=[validators.DataRequired()],

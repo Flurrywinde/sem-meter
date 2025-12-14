@@ -80,7 +80,7 @@ def index():
 			filename = secure_filename(file.filename)
 			csvfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 			file.save(csvfile)
-			newcsv = sem(csvfile).exe(start_date, end_date)
+			newcsv = sem(csvfile).exe(start_date, end_date, form.duedate.data, form.amtdue.data, form.kwh.data)
 			# , '2025-07-18', '2025-8-17'
 			#return redirect(url_for('download_file', name=filename))  # from elearningsolutions example
 
