@@ -83,9 +83,9 @@ class sem:
 		self.df.loc[rowcount+7, 'Date'] = 'Our %'
 		self.df.loc[rowcount+7, colnames[2]] = f'=b{rowcount+5}/b{rowcount+8}'
 		self.df.loc[rowcount+8, 'Date'] = 'Our $'
-		self.df.loc[rowcount+8, colnames[2]] = f'=b{rowcount+9}*b{rowcount+7}'
+		self.df.loc[rowcount+8, colnames[2]] = f'=round(b{rowcount+9}*b{rowcount+7}, 2)'
 		self.df.loc[rowcount+9, 'Date'] = 'Elena $'
-		self.df.loc[rowcount+9, colnames[2]] = f'=b{rowcount+7}-b{rowcount+10}'
+		self.df.loc[rowcount+9, colnames[2]] = f'=round(b{rowcount+7}-b{rowcount+10}, 2)'
 
 
 		# Rename columns to short names
