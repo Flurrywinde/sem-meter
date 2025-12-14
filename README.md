@@ -1,7 +1,55 @@
 # sem-meter
 Process a sem-meter .csv file to output only certain circuits with different multipliers to support multi-family household
 
-## Make it installable
+## Installation
+```
+$ mkdir -p ~/code/
+$ git clone https://github.com/Flurrywinde/sem-meter.git
+$ cd sem-meter
+$ python -m venv .venv				# Create python virtual environment
+$ source .venv/bin/activate.fish	# Activate it
+$ pip install -r requirements.txt	# Install needed modules into the virtual environment
+```
+Modify the above commands to suit your system, e.g. where you place your cloned repos and which shell you use. I do `activate.fish` because I use the Fish Shell.
+
+You must also modify `sem_meter.py` to suit your household and circuit configurations.
+
+	our_circuits = {
+		"<circuit name in the .csv file>": <percentage of this circuit you pay for>,
+		"Example: laundry room": .5,
+		...
+	}
+
+### Optional
+```
+$ cp sem.fish ~/.config/fish/functions/
+```
+This creates a new command `sem`. (This script has the additional feature of always updating the repo via `git pull`.)
+
+### Hardware Setup
+This repo assumes you have a working sem-meter device setup:
+
+* Install a sem-meter device in your circuit box and connect it to the circuits you want monitored.
+* Install and setup the sem-meter app on your phone or tablet.
+
+## Usage
+* Export latest .csv file from the sem-meter app.
+* Run this repo's auto-calculator app:
+	If you `cp`'ed `sem.fish`, just run `sem`. Otherwise:
+	```
+	$ cd ~/code/sem-meter
+	$ source .venv/bin/activate.fish
+	$ python app.py
+	```
+* Go to the page sent to your default browser to upload the .csv file and input data from your electric bill. Hit the Generate button.
+* This will generate and automatically download a new .csv file. Open this in your spreadsheet program.
+* See subtotals of only your electricity usage, your KWh usage, and who pays what, all calculated for you automatically!
+
+## TODO
+### Make it configurable
+IOW, stop hardcoding things (e.g. the `our_circuits` dict)!
+
+### Make it installable
 * https://www.kevinlaw.info/blog/2016-04-15-distributing-flask-as-a-package/
 * https://www.quora.com/What-is-the-process-to-upload-a-Python-Flask-project-to-GitHub-and-run-it-on-a-real-IP
 * https://share.google/aimode/YWe78vxuZV1tG9DxN
