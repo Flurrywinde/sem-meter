@@ -1,0 +1,53 @@
+<!-- templates/form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sem-meter Auto-Calc!</title>
+</head>
+<body>
+    <h1>SEM-Meter Auto-Calc!</h1>
+    <!-- <form method="POST" action="/">
+	<form action="/upload" method="post" enctype="multipart/form-data"> -->
+	<form action="/" method="POST" enctype="multipart/form-data">
+		<!--<input type="file" name="file">-->
+        {{ form.hidden_tag() }}
+        <p>
+			<p>{{ form.csv_in.label }}<br>
+			{{ form.csv_in() }}</p>
+			<p>{{ form.duedate.label }}<br>
+			{{ form.duedate() }}</p>
+    <div class="form-group">
+        {{ form.start_date.label }}
+        {{ form.start_date(class="form-control") }}
+        {% for error in form.start_date.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.end_date.label }}
+        {{ form.end_date(class="form-control") }}
+        {% for error in form.end_date.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+            <!-- Display validation errors -->
+            {% if form.duedate.errors %}
+                <ul class="errors">
+                {% for error in form.duedate.errors %}
+                    <li style="color:red;">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if form.csv_in.errors %}
+                <ul class="errors">
+                {% for error in form.csv_in.errors %}
+                    <li style="color:red;">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </p>
+		{{ form.submit(class="btn btn-primary") }}
+		<!--<p>{\{ form.submit() }}</p>-->
+    </form>
+</body>
+</html>
