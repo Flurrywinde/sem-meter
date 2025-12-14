@@ -70,9 +70,9 @@ class sem:
 			elif series_name == 'Date':
 				self.df.loc[rowcount, series_name] = 'Subtotal'
 				self.df.loc[rowcount+1, series_name] = 'Multiplier'
-				self.df.loc[rowcount+2, series_name] = 'Ours'
+				self.df.loc[rowcount+2, series_name] = 'Our KWh'
 			curalpha += 1
-		self.df.loc[rowcount+3, 'Date'] = 'Our Total'
+		self.df.loc[rowcount+3, 'Date'] = 'Our Total KWh'
 		self.df.loc[rowcount+3, colnames[2]] = f'=sum(b{rowcount+4}:{alphabet[curalpha-1]}{rowcount+4})'
 		self.df.loc[rowcount+4, 'Date'] = 'Due Date'
 		self.df.loc[rowcount+4, colnames[2]] = f'{duedate}'
