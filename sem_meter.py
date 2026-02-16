@@ -72,7 +72,7 @@ class sem:
 		self.df = self.df[self.df['Date'].between(self.start_date, self.end_date)]
 
 		# Wh to KWh conversion
-		self.df[self.datacols] = self.df[self.datacols].apply(lambda x: x / 1000)
+		#self.df[self.datacols] = self.df[self.datacols].apply(lambda x: x / 1000)
 
 		# Add spreadsheet formulae
 		rowcount = len(self.df)
