@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 
 class sem:
+	''' Watts
 	our_circuits = {
 		"HVAC 1-35 40A(W)": .333,
 		"Workshop 3-xx 50a(W)": 1,
@@ -21,6 +22,28 @@ class sem:
 		"Playhouse 8-xx 50a(W)": 'Playhouse',
 		"Trailer 11-22 30a(W)": 'Trailer',
 		"Office 15-30 15a(W)": 'Office',
+		}
+	'''
+
+	# KWH - why did it change?
+	our_circuits = {
+		"HVAC 1-35 40A(KWH)": .333,
+		"Workshop 3-xx 50a(KWH)": 1,
+		"Dryer 4-32 30a(KWH)": .25,
+		"Washer 5-31 20a(KWH)": .25,
+		"Playhouse 8-xx 50a(KWH)": 1,
+		"Trailer 11-22 30a(KWH)": 1,
+		#"Office 15-30 15a(KWH)": .5,
+		}
+
+	short_names = {
+		"HVAC 1-35 40A(KWH)": 'HVAC',
+		"Workshop 3-xx 50a(KWH)": 'Workshop',
+		"Dryer 4-32 30a(KWH)": 'Dryer',
+		"Washer 5-31 20a(KWH)": 'Washer',
+		"Playhouse 8-xx 50a(KWH)": 'Playhouse',
+		"Trailer 11-22 30a(KWH)": 'Trailer',
+		"Office 15-30 15a(KWH)": 'Office',
 		}
 
 	def __init__(self, csvfile):
